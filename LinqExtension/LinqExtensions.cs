@@ -6,7 +6,7 @@ namespace JesseRussell.LinqExtension
 {
     public static class LinqExtensions
     {
-        // Like select but with no return value. Runs the given action on each item in the stream.
+        // Clone of javascript's ForEach. Like select but with no return value. Runs the given action on each item in the stream.
         public static void ForEach<T>(this IEnumerable<T> stream, Action<T> action)
         {
             foreach(T item in stream)

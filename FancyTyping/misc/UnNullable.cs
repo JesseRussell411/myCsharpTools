@@ -2,10 +2,6 @@
 
 namespace JesseRussell.FancyTyping
 {
-    public readonly struct Foo
-    {
-
-    }
     /// <summary>
     /// Attempts to guarantee a non null value. In practice it is possible to store a null
     /// value in this data type by using its default constructor or the default keyword which is
