@@ -90,13 +90,13 @@ namespace JesseRussell.LinqExtension
         /// <summary>
         /// Converts the collection of tuple pairs to a Dictionary
         /// </summary>
-        public static Dictionary<K, V> ToDictionary<K, V>(IEnumerable<(K key, V value)> tupleEnum) =>
+        public static Dictionary<K, V> ToDictionary<K, V>(this IEnumerable<(K key, V value)> tupleEnum) =>
             tupleEnum.ToKeyValuePairs().ToDictionary();
 
         /// <summary>
         /// Converts the collection of tuple pairs to an ImmutableDictionary
         /// </summary>
-        public static ImmutableDictionary<K, V> ToImmutableDictionary<K, V>(IEnumerable<(K key, V value)> tupleEnum) =>
+        public static ImmutableDictionary<K, V> ToImmutableDictionary<K, V>(this IEnumerable<(K key, V value)> tupleEnum) =>
             tupleEnum.ToKeyValuePairs().ToImmutableDictionary();
     }
 }
