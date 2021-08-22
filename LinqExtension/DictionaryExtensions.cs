@@ -86,17 +86,5 @@ namespace JesseRussell.LinqExtension
         /// </summary>
         public static IEnumerable<KeyValuePair<K, V>> ToKeyValuePairs<K, V>(this IEnumerable<(K key, V value)> tupleEnum) =>
             tupleEnum.Select(t => new KeyValuePair<K, V>(t.key, t.value));
-
-        /// <summary>
-        /// Converts the collection of tuple pairs to a Dictionary
-        /// </summary>
-        public static Dictionary<K, V> ToDictionary<K, V>(this IEnumerable<(K key, V value)> tupleEnum) =>
-            tupleEnum.ToKeyValuePairs().ToDictionary();
-
-        /// <summary>
-        /// Converts the collection of tuple pairs to an ImmutableDictionary
-        /// </summary>
-        public static ImmutableDictionary<K, V> ToImmutableDictionary<K, V>(this IEnumerable<(K key, V value)> tupleEnum) =>
-            tupleEnum.ToKeyValuePairs().ToImmutableDictionary();
     }
 }
