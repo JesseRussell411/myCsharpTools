@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0-preview.5.21301.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FancyTyping\FancyTyping.csproj" />
     <ProjectReference Include="..\LinqExtension\LinqExtension.csproj" />
   </ItemGroup>

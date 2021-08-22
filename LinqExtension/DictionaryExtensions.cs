@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
 
 namespace JesseRussell.LinqExtension
@@ -33,6 +34,50 @@ namespace JesseRussell.LinqExtension
         {
             dict.Clear();
             dict.Fill(stream);
+        }
+
+        /// <summary>
+        /// Returns the value at the given key, or the given alternative if the key was not found.
+        /// </summary>
+        public static T GetValueOrAlternative<K, T>(this Dictionary<K, T> self, K key, T alternative)
+        {
+            if (self.TryGetValue(key, out T result))
+                return result;
+            else
+                return alternative;
+        }
+
+        /// <summary>
+        /// Returns the value at the given key, or the value provided by the alternative getter if the key was not found.
+        /// </summary>
+        public static T GetValueOrGetAlternative<K, T>(this Dictionary<K, T> self, K key, Func<T> getAlternative)
+        {
+            if (self.TryGetValue(key, out T result))
+                return result;
+            else
+                return getAlternative();
+        }
+
+        /// <summary>
+        /// Returns the value at the given key, or the given alternative if the key was not found.
+        /// </summary>
+        public static T GetValueOrAlternative<K, T>(this ImmutableDictionary<K, T> self, K key, T alternative)
+        {
+            if (self.TryGetValue(key, out T result))
+                return result;
+            else
+                return alternative;
+        }
+
+        /// <summary>
+        /// Returns the value at the given key, or the value provided by the alternative getter if the key was not found.
+        /// </summary>
+        public static T GetValueOrGetAlternative<K, T>(this ImmutableDictionary<K, T> self, K key, Func<T> getAlternative)
+        {
+            if (self.TryGetValue(key, out T result))
+                return result;
+            else
+                return getAlternative();
         }
     }
 }
