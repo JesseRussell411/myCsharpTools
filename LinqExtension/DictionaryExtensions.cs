@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
+using System.Linq;
 
 namespace JesseRussell.LinqExtension
 {
@@ -39,9 +40,9 @@ namespace JesseRussell.LinqExtension
         /// <summary>
         /// Returns the value at the given key, or the given alternative if the key was not found.
         /// </summary>
-        public static T GetValueOrAlternative<K, T>(this Dictionary<K, T> self, K key, T alternative)
+        public static V GetValueOrAlternative<K, V>(this Dictionary<K, V> self, K key, V alternative)
         {
-            if (self.TryGetValue(key, out T result))
+            if (self.TryGetValue(key, out V result))
                 return result;
             else
                 return alternative;
@@ -50,9 +51,9 @@ namespace JesseRussell.LinqExtension
         /// <summary>
         /// Returns the value at the given key, or the value provided by the alternative getter if the key was not found.
         /// </summary>
-        public static T GetValueOrGetAlternative<K, T>(this Dictionary<K, T> self, K key, Func<T> getAlternative)
+        public static V GetValueOrGetAlternative<K, V>(this Dictionary<K, V> self, K key, Func<V> getAlternative)
         {
-            if (self.TryGetValue(key, out T result))
+            if (self.TryGetValue(key, out V result))
                 return result;
             else
                 return getAlternative();
@@ -61,9 +62,9 @@ namespace JesseRussell.LinqExtension
         /// <summary>
         /// Returns the value at the given key, or the given alternative if the key was not found.
         /// </summary>
-        public static T GetValueOrAlternative<K, T>(this ImmutableDictionary<K, T> self, K key, T alternative)
+        public static V GetValueOrAlternative<K, V>(this ImmutableDictionary<K, V> self, K key, V alternative)
         {
-            if (self.TryGetValue(key, out T result))
+            if (self.TryGetValue(key, out V result))
                 return result;
             else
                 return alternative;
@@ -72,12 +73,30 @@ namespace JesseRussell.LinqExtension
         /// <summary>
         /// Returns the value at the given key, or the value provided by the alternative getter if the key was not found.
         /// </summary>
-        public static T GetValueOrGetAlternative<K, T>(this ImmutableDictionary<K, T> self, K key, Func<T> getAlternative)
+        public static V GetValueOrGetAlternative<K, V>(this ImmutableDictionary<K, V> self, K key, Func<V> getAlternative)
         {
-            if (self.TryGetValue(key, out T result))
+            if (self.TryGetValue(key, out V result))
                 return result;
             else
                 return getAlternative();
         }
+
+        /// <summary>
+        /// Converts the collection of tuple pairs to KeyValuePairs
+        /// </summary>
+        public static IEnumerable<KeyValuePair<K, V>> ToKeyValuePairs<K, V>(this IEnumerable<(K key, V value)> tupleEnum) =>
+            tupleEnum.Select(t => new KeyValuePair<K, V>(t.key, t.value));
+
+        /// <summary>
+        /// Converts the collection of tuple pairs to a Dictionary
+        /// </summary>
+        public static Dictionary<K, V> ToDictionary<K, V>(IEnumerable<(K key, V value)> tupleEnum) =>
+            tupleEnum.ToKeyValuePairs().ToDictionary();
+
+        /// <summary>
+        /// Converts the collection of tuple pairs to an ImmutableDictionary
+        /// </summary>
+        public static ImmutableDictionary<K, V> ToImmutableDictionary<K, V>(IEnumerable<(K key, V value)> tupleEnum) =>
+            tupleEnum.ToKeyValuePairs().ToImmutableDictionary();
     }
 }
