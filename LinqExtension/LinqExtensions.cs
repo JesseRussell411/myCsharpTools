@@ -9,7 +9,7 @@ namespace JesseRussell.LinqExtension
         // Clone of javascript's ForEach. Like select but with no return value. Runs the given action on each item in the stream.
         public static void ForEach<T>(this IEnumerable<T> stream, Action<T> action)
         {
-            foreach(T item in stream)
+            foreach (T item in stream)
             {
                 action(item);
             }
@@ -20,5 +20,22 @@ namespace JesseRussell.LinqExtension
 
         // Produces a dictionary from a stream of KeyValuePairs
         public static Dictionary<K, V> ToDictionary<K, V>(this IEnumerable<KeyValuePair<K, V>> stream) => stream.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> stream, int times)
+        {
+            bool toCache()
+            {
+                // to cache or not to cache, that is the question.
+                if (times <= 1) return false;
+                if (stream is string) return false;
+                return true;
+            }
+
+            IEnumerable<T> streamToUse = toCache() ? stream : stream.ToArray();
+            
+            for(int i = 0; i < times; ++i)
+                foreach(T item in streamToUse)
+                    yield return item;
+        }
     }
 }
