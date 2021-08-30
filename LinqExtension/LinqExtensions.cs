@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
 namespace JesseRussell.LinqExtension
 {
     public static class LinqExtensions
@@ -36,6 +36,25 @@ namespace JesseRussell.LinqExtension
             for(int i = 0; i < times; ++i)
                 foreach(T item in streamToUse)
                     yield return item;
+        }
+        public static string BuildString(this IEnumerable<char> charStream)
+        {
+            StringBuilder resultBuilder = new StringBuilder();
+
+            foreach (char c in charStream)
+                resultBuilder.Append(c);
+
+            return resultBuilder.ToString();
+        }
+
+        public static string BuildString(this IEnumerable<string> stream)
+        {
+            StringBuilder resultBuilder = new StringBuilder();
+
+            foreach (string s in stream)
+                resultBuilder.Append(s);
+
+            return resultBuilder.ToString();
         }
     }
 }
