@@ -17,11 +17,14 @@ namespace JesseRussell.LinqExtension
         /// <returns>True if the key was found in the dictionary and False if the key was not found and needed to be inserted.</returns>
         public static bool EnsureKey<K, V>(this Dictionary<K, V> self, K key, V value = default)
         {
-            if (self.ContainsKey(key)) { return true; }
-            else
+            lock (self)
             {
-                self.Add(key, value);
-                return false;
+                if (self.ContainsKey(key)) { return true; }
+                else
+                {
+                    self.Add(key, value);
+                    return false;
+                }
             }
         }
         /// <summary>

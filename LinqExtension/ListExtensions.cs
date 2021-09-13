@@ -28,10 +28,13 @@ namespace JesseRussell.LinqExtension
         /// </summary>
         public static T GetValueOrDefault<T>(this IList<T> list, int index)
         {
-            if (list.ContainsIndex(index))
-                return list[index];
-            else
-                return default;
+            lock (list)
+            {
+                if (list.ContainsIndex(index))
+                    return list[index];
+                else
+                    return default;
+            }
         }
 
         /// <summary>
@@ -41,17 +44,19 @@ namespace JesseRussell.LinqExtension
         /// <returns>Whether the value was found. If false: the index is out of bounds.</returns>
         public static bool TryGetValue<T>(this IList<T> list, int index, out T value)
         {
-            if (list.ContainsIndex(index))
+            lock (list)
             {
-                value = list[index];
-                return true;
-            }
-            else
-            {
-                value = default;
-                return false;
+                if (list.ContainsIndex(index))
+                {
+                    value = list[index];
+                    return true;
+                }
+                else
+                {
+                    value = default;
+                    return false;
+                }
             }
         }
-
     }
 }
